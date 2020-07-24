@@ -26,10 +26,10 @@
                      <div class="col-md-5 center-item">
                         <div class="input-group number-spinner">
                            <button class="btn btn-default" id="top-minus"><i class="fas fa-minus"></i></button>
-                           <input type="text" id="top-minus-input" class="form-control text-center" value="5">
-                           <button class="btn btn-default"><i class="fas fa-plus"></i></button>
+                           <input type="text" id="top-input" class="form-control text-center" value="1">
+                           <button class="btn btn-default" id="top-plus"><i class="fas fa-plus"></i></button>
                         </div>
-                        <h5>$1219</h5>
+                        <h5>$ <span id="phone-price">1219</span> </h5>
                         <img src="images/remove.png" alt="" class="remove-item">
                      </div>
                   </div>
@@ -79,13 +79,65 @@
    </section>
 </body>
 <script>
-      const topMinus=document.getElementById('top-minus');
-      topMinus.addEventListener('click',function(){
-      const topMinusInput=document.getElementById('top-minus-input').value;
-      const topMinusInputCapture=parseInt(topMinusInput);
-      const totalMinus=topMinusInputCapture-1;
-      document.getElementById('top-minus-input').value=totalMinus;
-      })
+   //function for amount
+   function amountCount(receive){
+         let phonePrice=document.getElementById('phone-price').innerText;
+         let convertPhonePrice=parseInt(phonePrice);
+         if(receive=='plus'){
+            let countPrice=convertPhonePrice+1219;
+            let totalPrice=document.getElementById('phone-price').innerText=countPrice;
+            return totalPrice;
+         } 
+         else{
+            let countPrice=convertPhonePrice-1219;
+            if(countPrice<1219){
+               countPrice=1219
+            }
+            let totalPrice=document.getElementById('phone-price').innerText=countPrice;
+            return totalPrice;
+         }
+        } 
+
+
+        //function for input 
+        function quantityCount(operators){
+         let inputcapture=document.getElementById('top-input').value;
+         let convertInputCapture=parseInt(inputcapture);
+         if(operators=='plus'){
+           
+           let countInput=convertInputCapture+1;
+           let totalCount=document.getElementById('top-input').value=countInput;
+           return totalCount;
+           
+         }
+         else{
+            let countInput=convertInputCapture-1;
+            if(countInput<1){
+               countInput=1;
+            }
+            let totalCount=document.getElementById('top-input').value=countInput;
+            return totalCount; 
+         }
+        
+      }
+
+
+      //to increase quantity or plus button
+          const plusButton=document.getElementById('top-plus');
+          plusButton.addEventListener('click',function(){
+          quantityCount('plus');
+          amountCount('plus');
+          })
+
+
+      //to decrase quantity or minus button
+          const minusButton=document.getElementById('top-minus')
+          minusButton.addEventListener('click',function(){
+          quantityCount('minus');
+          amountCount('minus');
+          })
+      
+
 </script>
 
 </html>
