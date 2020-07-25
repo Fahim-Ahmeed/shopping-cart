@@ -43,12 +43,12 @@
                      </div>
                      <div class="col-md-5 center-item">
                         <div class="input-group number-spinner">
-                           <button class="btn btn-default"><i class="fas fa-minus"></i></button>
-                           <input type="text" class="form-control text-center" value="1">
-                           <button class="btn btn-default"><i class="fas fa-plus"></i></button>
+                           <button class="btn btn-default" id="bottom-minus"><i class="fas fa-minus"></i></button>
+                           <input type="text" id="bottom-input" class="form-control text-center" value="1">
+                           <button class="btn btn-default" id="bottom-plus"><i class="fas fa-plus"></i></button>
 
                         </div>
-                        <h5>$59</h5>
+                        <h5>$ <span id="case-price">59</span></h5>
                         <img src="images/remove.png" alt="" class="remove-item">
                      </div>
                   </div>
@@ -83,12 +83,14 @@
    function amountCount(receive){
          let phonePrice=document.getElementById('phone-price').innerText;
          let convertPhonePrice=parseInt(phonePrice);
-         if(receive=='plus'){
+         let casePrice=document.getElementById('case-price').innerText;
+         let convertCasePrice=parseInt(casePrice);
+         if(receive=='plusPhone'){
             let countPrice=convertPhonePrice+1219;
             let totalPrice=document.getElementById('phone-price').innerText=countPrice;
             return totalPrice;
          } 
-         else if(receive=='minus'){
+         else if(receive=='minusPhone'){
             let countPrice=convertPhonePrice-1219;
             if(countPrice<=0){
                countPrice=0;
@@ -96,21 +98,43 @@
             let totalPrice=document.getElementById('phone-price').innerText=countPrice;
             return totalPrice;
          }
-         else{
-            let countPrice=1219*quantityCount();
+         else if(receive=='plusCase'){
+            let countPrice=convertCasePrice+59;
+            let totalPrice=document.getElementById('case-price').innerText=countPrice;
+            return totalPrice;
+         }
+         else if(receive=='minusCase'){
+            let countPrice=convertCasePrice-59;
+            if(countPrice<=0){
+               countPrice=0;
+            }
+            let totalPrice=document.getElementById('case-price').innerText=countPrice;
+            return totalPrice;
+         }
+         else if(receive=='phoneInput'){
+            let countPrice=1219*quantityCount('phoneInput');
             let totalPrice=document.getElementById('phone-price').innerText=countPrice;
             return totalPrice;
+         }
+         else if(receive=='caseInput'){
+            let countPrice=51*quantityCount('caseInput');
+            let totalPrice=document.getElementById('case-price').innerText=countPrice;
+            return totalPrice;
+         }
+         else{
+            console.log('error code');
          }
         } 
 
     // function for subtotal
     function subTotal(){
-            // const subTotal=document.getElementById('sub-total').innerText;
-            // const convertSubTotal=parseInt(subTotal);
             const againPhonePrice=document.getElementById('phone-price').innerText;
             const convertAgainPhonePrice=parseInt(againPhonePrice);
-            const totalSubTotal=convertAgainPhonePrice;
-            document.getElementById('sub-total').innerText=totalSubTotal;
+            const againCasePrice=document.getElementById('case-price').innerText;
+            const convertAgainCasePrice=parseInt(againCasePrice);
+            const totalSubTotal=convertAgainCasePrice+convertAgainPhonePrice;
+            const captureTotalSubTotal=document.getElementById('sub-total').innerText=totalSubTotal;
+            return captureTotalSubTotal;
     }    
 
 
@@ -118,14 +142,16 @@
         function quantityCount(operators){
          let inputcapture=document.getElementById('top-input').value;
          let convertInputCapture=parseInt(inputcapture);
-         if(operators=='plus'){
+         let bottomInput=document.getElementById('bottom-input').value;
+         let convertBottomValue=parseInt(bottomInput);
+         if(operators=='plusPhone'){
            
            let countInput=convertInputCapture+1;
            let totalCount=document.getElementById('top-input').value=countInput;
            return totalCount;
            
          }
-         else if(operators=='minus'){
+         else if(operators=='minusPhone'){
             let countInput=convertInputCapture-1;
             if(countInput<=0){
                countInput=0;
@@ -133,7 +159,20 @@
             let totalCount=document.getElementById('top-input').value=countInput;
             return totalCount
          }
-         else{
+         else if(operators=='plusCase'){
+            let countInput=convertBottomValue+1;
+            let totalCount=document.getElementById('bottom-input').value=countInput;
+            return totalCount
+         }
+         else if(operators=='minusCase'){
+            let countInput=convertBottomValue-1;
+            if(countInput<=0){
+               countInput=0;
+            }
+            let totalCount=document.getElementById('bottom-input').value=countInput;
+            return totalCount;
+         }
+         else if(operators=='phoneInput'){
          let inputcapture=document.getElementById('top-input').value;
          if(inputcapture==''){
             inputcapture=0;
@@ -144,39 +183,74 @@
             return totalCount;
          
          }
+         else if(operators=='caseInput'){
+            let inputcapture=document.getElementById('bottom-input').value;
+         if(inputcapture==''){
+            inputcapture=0;
+         }
+         let convertInputCapture=parseInt(inputcapture);
+         let countInput=convertInputCapture;
+         let totalCount=document.getElementById('bottom-input').value=countInput;
+            return totalCount;
+         }
+         else{
+            console.log('error code');
+         }
         
       }
 
 
-      //to increase quantity or plus button
+      //to increase phone quantity or plus button
           const plusButton=document.getElementById('top-plus');
           plusButton.addEventListener('click',function(){
-          quantityCount('plus');
-          amountCount('plus');
+          quantityCount('plusPhone');
+          amountCount('plusPhone');
           subTotal();
           })
 
 
-      //to decrase quantity or minus button
+      //to decrase phone quantity or minus button
           const minusButton=document.getElementById('top-minus')
           minusButton.addEventListener('click',function(){
-          quantityCount('minus');
-          amountCount('minus');
+          quantityCount('minusPhone');
+          amountCount('minusPhone');
           subTotal();
           })
 
-      //keyboard control
-          const keyboardButton=document.getElementById('top-input');
-          keyboardButton.addEventListener('input',function(){
-          amountCount();
+      //phone input keyboard control
+          const phoneKeyboardButton=document.getElementById('top-input');
+          phoneKeyboardButton.addEventListener('input',function(){
+          amountCount('phoneInput');
           subTotal();
           })
-      //close button
+      //close close  button
          const closeButton=document.getElementById('first-remove');
          closeButton.addEventListener('click',function(){
          const phoneItem=document.getElementById('phone-item');
          phoneItem.style.display='none';
-         })    
+         }) 
+
+      //to increase phone case quantity or plus button  
+         const casePlus=document.getElementById('bottom-plus');
+         casePlus.addEventListener('click',function(){
+         quantityCount('plusCase');
+         amountCount('plusCase');
+         subTotal();
+         })
+
+      //to decrase phone case quantity or minus button
+         const caseMinus=document.getElementById('bottom-minus');
+         caseMinus.addEventListener('click',function(){ 
+         quantityCount('minusCase');
+         amountCount('minusCase');
+         subTotal();
+         })  
+      //case input keyboard control
+         const caseKeyboardButton=document.getElementById('bottom-input');
+         caseKeyboardButton.addEventListener('input',function(){
+         amountCount('caseInput');
+         subTotal();
+         })
       
 
 </script>
