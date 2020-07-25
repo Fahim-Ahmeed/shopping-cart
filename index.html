@@ -16,7 +16,7 @@
       <div class="container">
          <div class="cart">
             <div class="col-md-12 col-lg-10 mx-auto">
-               <div class="cart-item">
+               <div id="phone-item" class="cart-item">
                   <div class="row">
                      <div class="col-md-7 center-item">
                         <img src="images/product-1.png" alt="">
@@ -30,7 +30,7 @@
                            <button class="btn btn-default" id="top-plus"><i class="fas fa-plus"></i></button>
                         </div>
                         <h5>$ <span id="phone-price">1219</span> </h5>
-                        <img src="images/remove.png" alt="" class="remove-item">
+                        <img id="first-remove" src="images/remove.png" alt="" class="remove-item">
                      </div>
                   </div>
                </div>
@@ -64,7 +64,7 @@
                      </div>
 
                      <div class="col-md-4 status">
-                        <h5>$1,278</h5>
+                        <h5>$ <span id="sub-total">00</span></h5>
                         <h5>$0</h5>
                         <h5>$1,278</h5>
                      </div>
@@ -79,7 +79,7 @@
    </section>
 </body>
 <script>
-   //function for amount
+    //function for amount
    function amountCount(receive){
          let phonePrice=document.getElementById('phone-price').innerText;
          let convertPhonePrice=parseInt(phonePrice);
@@ -88,18 +88,33 @@
             let totalPrice=document.getElementById('phone-price').innerText=countPrice;
             return totalPrice;
          } 
-         else{
+         else if(receive=='minus'){
             let countPrice=convertPhonePrice-1219;
-            if(countPrice<1219){
-               countPrice=1219
+            if(countPrice<=0){
+               countPrice=0;
             }
+            let totalPrice=document.getElementById('phone-price').innerText=countPrice;
+            return totalPrice;
+         }
+         else{
+            let countPrice=1219*quantityCount();
             let totalPrice=document.getElementById('phone-price').innerText=countPrice;
             return totalPrice;
          }
         } 
 
+    // function for subtotal
+    function subTotal(){
+            // const subTotal=document.getElementById('sub-total').innerText;
+            // const convertSubTotal=parseInt(subTotal);
+            const againPhonePrice=document.getElementById('phone-price').innerText;
+            const convertAgainPhonePrice=parseInt(againPhonePrice);
+            const totalSubTotal=convertAgainPhonePrice;
+            document.getElementById('sub-total').innerText=totalSubTotal;
+    }    
 
-        //function for input 
+
+    //function for input 
         function quantityCount(operators){
          let inputcapture=document.getElementById('top-input').value;
          let convertInputCapture=parseInt(inputcapture);
@@ -110,13 +125,24 @@
            return totalCount;
            
          }
-         else{
+         else if(operators=='minus'){
             let countInput=convertInputCapture-1;
-            if(countInput<1){
-               countInput=1;
+            if(countInput<=0){
+               countInput=0;
             }
             let totalCount=document.getElementById('top-input').value=countInput;
-            return totalCount; 
+            return totalCount
+         }
+         else{
+         let inputcapture=document.getElementById('top-input').value;
+         if(inputcapture==''){
+            inputcapture=0;
+         }
+         let convertInputCapture=parseInt(inputcapture);
+         let countInput=convertInputCapture;
+         let totalCount=document.getElementById('top-input').value=countInput;
+            return totalCount;
+         
          }
         
       }
@@ -127,6 +153,7 @@
           plusButton.addEventListener('click',function(){
           quantityCount('plus');
           amountCount('plus');
+          subTotal();
           })
 
 
@@ -135,9 +162,27 @@
           minusButton.addEventListener('click',function(){
           quantityCount('minus');
           amountCount('minus');
+          subTotal();
           })
+
+      //keyboard control
+          const keyboardButton=document.getElementById('top-input');
+          keyboardButton.addEventListener('input',function(){
+          amountCount();
+          subTotal();
+          })
+      //close button
+         const closeButton=document.getElementById('first-remove');
+         closeButton.addEventListener('click',function(){
+         const phoneItem=document.getElementById('phone-item');
+         phoneItem.style.display='none';
+         })    
       
 
 </script>
+
+
+
+
 
 </html>
