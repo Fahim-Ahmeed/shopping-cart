@@ -35,7 +35,7 @@
                   </div>
                </div>
 
-               <div class="cart-item">
+               <div id="case-item" class="cart-item">
                   <div class="row">
                      <div class="col-md-7 center-item mx-auto">
                         <img src="images/product-2.png" alt="">
@@ -49,7 +49,7 @@
 
                         </div>
                         <h5>$ <span id="case-price">59</span></h5>
-                        <img src="images/remove.png" alt="" class="remove-item">
+                        <img id="last-remove" src="images/remove.png" alt="" class="remove-item">
                      </div>
                   </div>
                </div>
@@ -65,8 +65,8 @@
 
                      <div class="col-md-4 status">
                         <h5>$ <span id="sub-total">00</span></h5>
-                        <h5>$0</h5>
-                        <h5>$1,278</h5>
+                        <h5>$ <span id="tax">00</span></h5>
+                        <h5>$ <span id="total-price">00</span></h5>
                      </div>
                   </div>
                </div>
@@ -132,14 +132,42 @@
             const convertAgainPhonePrice=parseInt(againPhonePrice);
             const againCasePrice=document.getElementById('case-price').innerText;
             const convertAgainCasePrice=parseInt(againCasePrice);
-            const totalSubTotal=convertAgainCasePrice+convertAgainPhonePrice;
+            let totalSubTotal=convertAgainCasePrice+convertAgainPhonePrice;
             const captureTotalSubTotal=document.getElementById('sub-total').innerText=totalSubTotal;
             return captureTotalSubTotal;
-    }    
+    } 
+
+    //function for tax
+    function calculateTax(){
+            const tax=document.getElementById('tax').innerText;
+            const convertTax=parseInt(tax);
+            const phoneTax=document.getElementById('phone-price').innerText;
+            const convertPhoneTax=parseInt(phoneTax);
+            const caseTax=document.getElementById('case-price').innerText;
+            const convertCaseTax=parseInt(caseTax);
+            const totalTax=convertPhoneTax+convertCaseTax;
+            const convertTotalTax=parseInt( totalTax*.15);
+            document.getElementById('tax').innerText=convertTotalTax;
+    }
+
+     //function for total balance
+     function totalPrice(){
+            const total=document.getElementById('total-price').innerText;
+            const convertTotal=parent(total);
+            const phoneTotal=document.getElementById('phone-price').innerText;
+            const convertPhoneTotal=parsInt(phoneTotal);
+            const caseTotal=document.getElementById('case-price').innerText;
+            const convertCaseTotal=parseInt(caseTotal);
+            const taxTotal=document.getElementById('tax').innerText;
+            const convertTaxTotal=parseInt(taxTotal);
+            const totalWithTax=parseInt(convertPhoneTotal+convertCaseTotal+convertCaseTotal);
+            document.getElementById('total-price').innerText=totalWithTax;
+
+     } 
 
 
     //function for input 
-        function quantityCount(operators){
+    function quantityCount(operators){
          let inputcapture=document.getElementById('top-input').value;
          let convertInputCapture=parseInt(inputcapture);
          let bottomInput=document.getElementById('bottom-input').value;
@@ -206,6 +234,8 @@
           quantityCount('plusPhone');
           amountCount('plusPhone');
           subTotal();
+          calculateTax();
+          totalPrice();
           })
 
 
@@ -215,6 +245,8 @@
           quantityCount('minusPhone');
           amountCount('minusPhone');
           subTotal();
+          calculateTax();
+          totalPrice();
           })
 
       //phone input keyboard control
@@ -222,8 +254,10 @@
           phoneKeyboardButton.addEventListener('input',function(){
           amountCount('phoneInput');
           subTotal();
+          calculateTax();
+          totalPrice();
           })
-      //close close  button
+      //phone close  button
          const closeButton=document.getElementById('first-remove');
          closeButton.addEventListener('click',function(){
          const phoneItem=document.getElementById('phone-item');
@@ -236,6 +270,8 @@
          quantityCount('plusCase');
          amountCount('plusCase');
          subTotal();
+         calculateTax();
+         totalPrice();
          })
 
       //to decrase phone case quantity or minus button
@@ -244,13 +280,24 @@
          quantityCount('minusCase');
          amountCount('minusCase');
          subTotal();
+         calculateTax();
+         totalPrice();
          })  
       //case input keyboard control
          const caseKeyboardButton=document.getElementById('bottom-input');
          caseKeyboardButton.addEventListener('input',function(){
          amountCount('caseInput');
          subTotal();
+         calculateTax();
+         totalPrice();
          })
+
+     // case close  button
+     const closeButton=document.getElementById('last-remove');
+         closeButton.addEventListener('click',function(){
+         const phoneItem=document.getElementById('case-item');
+         phoneItem.style.display='none';
+         })   
       
 
 </script>
